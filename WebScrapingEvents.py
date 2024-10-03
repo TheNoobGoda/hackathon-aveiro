@@ -38,11 +38,16 @@ if response.status_code == 200:
         location_element = event.find('a', itemprop='location')
         location = location_element.get_text(strip=True) if location_element else 'Local não encontrado'
 
+        # Extrair a categoria
+        category_element = event.find('a', title="Ver eventos desta categoria")
+        category = category_element.get_text(strip=True) if category_element else 'Categoria não encontrada'
+
         # Exibir as informações do evento
         print(f"Título: {title}")
         print(f"Data e Hora de Início: {start_time}")
         print(f"Hora do Evento: {event_hour}")
         print(f"Local: {location}")
+        print(f"Categoria: {category}") 
         print("-" * 40)  # Separador entre eventos
 else:
     print(f"Falha ao recuperar a página da web. Código de status: {response.status_code}")
