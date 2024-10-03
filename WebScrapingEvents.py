@@ -121,7 +121,7 @@ headers = {
 try:
     # Enviar uma solicitação GET com cabeçalhos
     response = requests.get(url, headers=headers)
-    response.raise_for_status()  # Verifica se a solicitação foi bem-sucedida
+    response.raise_for_status()  # Verificar se a solicitação foi bem-sucedida
 
     # Analisar o conteúdo HTML
     soup = BeautifulSoup(response.content, 'html.parser')
@@ -132,7 +132,7 @@ try:
     aqi_element = soup.find('div', class_='aq-number')
     quality_type_element = soup.find('p', class_='category-text')  
 
-    # Verificar se os elementos foram encontrados e extrair o texto
+    # Verificar se os elementos foram encontrados e extrair a informação
     air_quality = air_quality_header.get_text(strip=True) if air_quality_header else 'Título não encontrado'
     date = date_wrapper.get_text(strip=True) if date_wrapper else 'Data não encontrada'
     aqi_value = aqi_element.get_text(strip=True) if aqi_element else 'AQI não encontrado'
