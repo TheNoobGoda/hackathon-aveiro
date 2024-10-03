@@ -11,6 +11,7 @@ class Edge:
         self.node1 = node1
         self.node2 = node2
         self.distance = distance
+        self.traffic_weight = 0 
         self.bidirectional = bidirectional
 
 class Graph:
@@ -34,7 +35,6 @@ class Graph:
         return mpu.haversine_distance((self.nodes[node1].x,self.nodes[node1].y),(self.nodes[node2].x,self.nodes[node2].y))
     
     def get_neighbors(self, node):
-        """Get neighboring nodes and their distances from the current node."""
         neighbors = []
         for edge in self.edges:
             if edge.node1 == node:
@@ -75,3 +75,23 @@ class Graph:
         
         path = path[::-1]  # Reverse the path to get it from start to end
         return path if path[0] == start else None  # Return path or None if no path is found
+    
+    def update_edge_weights(self, path):
+        """Increase the traffic weight for each edge along the given path."""
+        for i in range(len(path) - 1):
+            node1, node2 = path[i], path[i+1]
+            for edge in self.edges:
+                if (edge.node1 == node1 and edge.node2 == node2) or (edge.node1 == node2 and edge.node2 == node1):
+                    edge.traffic_weight += 1  # Increase weight due to traffic
+                    break
+
+    def find_closest_node(self, x, y):
+        """Find the closest node to a given GPS location."""
+        min_distance = float('inf')
+        closest_node = None
+        for i, node in enumerate(self.nodes):
+            distance = mpu.haversine_distance((node.x, node.y), (x, y))
+            if distance < min_distance:
+                min_distance = distance
+                closest_node = i
+        return closest_node
