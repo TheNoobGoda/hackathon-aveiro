@@ -9,10 +9,10 @@ llm = Llama(model_path="T.E-8.1.i1-Q6_K.gguf", chat_format="llama-2", n_ctx = 20
 conversation_history_list = []
 
 #max number of responses that the model remeber
-max_memory = 3
+#max_memory = 3
 
 
-def get_relevant_topics(prompt, new_headers_list):
+def get_relevant_topics_from_news(prompt, new_headers_list):
 
 	noticias = new_headers_list
 
@@ -30,6 +30,51 @@ def get_relevant_topics(prompt, new_headers_list):
 		)
 	
 	return model_1['choices'][0]['message']['content']
+
+
+def get_relevant_topics_from_events(prompt, new_headers_list): ####### preciso alterar
+
+	noticias = new_headers_list
+
+	noticias_formatadas = "\n".join([f"{i+1} - {noticia.strip()}" for i, noticia in enumerate(noticias)])
+
+	model_1 = llm.create_chat_completion(
+    	messages = [
+        				{"role": "system", "content": f"  O teu objetivo é formular uma resposta informativa que deve apenas abordar os titulos de noticias seguintes: {noticias_formatadas}  . Notes: End your responses with '__' "},
+        				{
+           			 	"role": "user",
+            			"content": f"{prompt}"
+        			}
+    				]
+   		,stop=["__"]
+		)
+	
+	return model_1['choices'][0]['message']['content']
+
+
+
+def get_relevant_topics_from_news(prompt, new_headers_list): ###### preciso alterar
+
+	noticias = new_headers_list
+
+	noticias_formatadas = "\n".join([f"{i+1} - {noticia.strip()}" for i, noticia in enumerate(noticias)])
+
+	model_1 = llm.create_chat_completion(
+    	messages = [
+        				{"role": "system", "content": f"  O teu objetivo é formular uma resposta informativa que deve apenas abordar os titulos de noticias seguintes: {noticias_formatadas}  . Notes: End your responses with '__' "},
+        				{
+           			 	"role": "user",
+            			"content": f"{prompt}"
+        			}
+    				]
+   		,stop=["__"]
+		)
+	
+	return model_1['choices'][0]['message']['content']
+
+
+
+
 
 
 def get_general_information(prompt):
@@ -98,7 +143,7 @@ while True:
 		#main llm agent
 		model_output = llm.create_chat_completion(
     	messages = [
-        				{"role": "system", "content": f"O teu objetivo é interpretar o imput do utilizador e fazer uma tarefa, sinalizar a respostas entre as seguintes opções: XXXX se o input se refere a informações gerais sobre aveiro, YYYY se o input quer saber de possiveis eventos recentes, noticias ou possiveis fatores que condicionem a condução em certas zonas da cidade. OOOO se nehum de outros pontos    Conversation history: {conversation_history} . Notes: End your responses with '__' "},
+        				{"role": "system", "content": f"O teu objetivo é interpretar o imput do utilizador e fazer uma tarefa, sinalizar a respostas entre as seguintes opções: XXXX se o input se refere a informações gerais sobre aveiro, YYYY se o input quer saber de possiveis eventos recentes, noticias ou possiveis fatores que condicionem a condução em certas zonas da cidade, ZZZZ se é um pedido relacionado com eventos a decorrer na cidade, VVVVV se é um pedido de como esta o tempo na cidade, OOOO se nehum de outros pontos. Notes: End your responses with '__' "},
         				{
            			 	"role": "user",
             			"content": f"{user_input}"
@@ -121,6 +166,10 @@ while True:
 		elif "YYYY" in response:
 			final_response =
 		elif "OOOO" in response:
+			final_response = 
+		elif "ZZZZ" in response:
+			final_response = 
+		elif "VVVV" in response:
 			final_response = 
 		else:
 			final_response = "LLM interpretation was wrong or content of the imput is not valid" 
