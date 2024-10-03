@@ -28,9 +28,9 @@ if response.status_code == 200:
         title_element = event.find('span', itemprop='name')
         title = title_element.get_text(strip=True) if title_element else 'Título não encontrado'
 
-        # Extrair a data e hora de início
+        # Extrair a data do evento
         start_time_element = event.find('time', itemprop='startDate')
-        start_time = start_time_element['datetime'] if start_time_element else 'Data de início não encontrada'
+        start_date = start_time_element['datetime'].split("T")[0] if start_time_element else 'Data de início não encontrada'
 
         # Extrair a hora do evento
         event_hour_element = event.find('div', class_='viral-event-hour')
@@ -44,15 +44,15 @@ if response.status_code == 200:
         category_element = event.find('a', title="Ver eventos desta categoria")
         category = category_element.get_text(strip=True) if category_element else 'Categoria não encontrada'
 
-        # Exibir as informações do evento
         print(f"Título: {title}")
-        print(f"Data e Hora de Início: {start_time}")
+        print(f"Data de Início: {start_date}")
         print(f"Hora do Evento: {event_hour}")
         print(f"Local: {location}")
         print(f"Categoria: {category}") 
         print("-" * 40)  # Separador entre eventos
 else:
     print(f"Falha ao recuperar a página da web. Código de status: {response.status_code}")
+
 
 # -------------------------------------------- Meteorologia em Aveiro -------------------------------------------
 
