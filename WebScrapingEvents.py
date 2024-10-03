@@ -116,7 +116,7 @@ try:
 
     # Verificar se os elementos foram encontrados e extrair a informação
     air_quality = air_quality_header.get_text(strip=True) if air_quality_header else 'Título não encontrado'
-    date = date_wrapper.get_text(strip=True) if date_wrapper else 'Data não encontrada'
+    date = " ".join(date_wrapper.stripped_strings) if date_wrapper else 'Data não encontrada'
     aqi_value = aqi_element.get_text(strip=True) if aqi_element else 'AQI não encontrado'
     quality_type = quality_type_element.get_text(strip=True) if quality_type_element else 'Tipo de qualidade do ar não encontrado' 
 
