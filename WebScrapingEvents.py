@@ -59,18 +59,13 @@ else:
 # URL do site AccuWeather para a previsão do tempo em Aveiro utilizando o AccuWeather
 #url = "https://www.accuweather.com/pt/pt/aveiro/271914/daily-weather-forecast/271914"
 url = "https://www.accuweather.com/pt/pt/aveiro/271914/daily-weather-forecast/271914"
-
-# Headers para simular uma solicitação de navegador
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
 }
 
 try:
-    # Enviar uma solicitação GET com cabeçalhos
     response = requests.get(url, headers=headers)
-    response.raise_for_status()  # Verifica se a solicitação foi bem-sucedida
-
-    # Analisar o conteúdo HTML
+    response.raise_for_status()  
     soup = BeautifulSoup(response.content, 'html.parser')
 
     # Extrair informações meteorológicas
@@ -80,17 +75,17 @@ try:
     # Verificar se os elementos foram encontrados e extrair o texto
     date = date_element.get_text(strip=True) if date_element else 'Data não encontrada'
     
-    # Extraindo informações do cartão diário
+    # Extrair informações diárias
     if daily_card:
         day_info = daily_card.find('h2', class_='date')
         temp = daily_card.find('div', class_='temp')
         phrase = daily_card.find('div', class_='phrase')
         
-        # Extraindo as informações de temperatura
+        # Extrair as informações de temperatura
         high_temp = temp.find('span', class_='high').get_text(strip=True) if temp else 'Temp alta não encontrada'
         low_temp = temp.find('span', class_='low').get_text(strip=True) if temp else 'Temp baixa não encontrada'
         
-        # Extraindo outras informações
+        # Extrair informações de precipitação
         precip_element = daily_card.find('div', class_='precip')
         precip_prob = precip_element.get_text(strip=True) if precip_element else 'Probabilidade de precipitação não encontrada'
         
