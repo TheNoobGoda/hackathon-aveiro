@@ -2,6 +2,7 @@ import mpu
 import heapq
 import matplotlib.pyplot as plt
 import networkx as nx
+import matplotlib.image as mpimg
 
 class Node:
     def __init__(self,x,y):
@@ -27,7 +28,7 @@ class Graph:
     def add_edge(self,edge):
         self.edges.append(edge)
     
-    def visualize(self, path=[]):
+    def visualize(self, path=[], background_image=None):
         """
         Visualize the graph and highlight the best path if provided.
         """
@@ -47,6 +48,10 @@ class Graph:
         
         # Plot the graph
         plt.figure(figsize=(8, 8))
+
+        if background_image:
+            img = mpimg.imread(background_image)
+            plt.imshow(img, extent=[40.641804, 40.644079, -8.644374, -8.640978])  # Adjust 'extent' to match your graph coordinates
         
         # Draw nodes
         nx.draw_networkx_nodes(G, pos, node_size=700, node_color='lightblue')
