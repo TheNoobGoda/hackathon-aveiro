@@ -1,1 +1,0 @@
-st.write(f"☔ **Probabilidade de Precipitação**: {weather['precip_prob']}")
