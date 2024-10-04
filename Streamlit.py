@@ -1,12 +1,10 @@
-
-
 import requests
 from bs4 import BeautifulSoup
 import streamlit as st
 
 # Função para obter dados de qualidade do ar
 def get_air_quality_data():
-    url = "https://www.accuweather.com/pt/pt/aveiro/271914/air-quality-index/271914"  
+    url = "https://www.accuweather.com/pt/pt/aveiro/271914/air-quality-index/271914"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     }
@@ -110,11 +108,32 @@ def get_weather_data():
     except Exception as e:
         return None
 
+# Função para interpretar a pesquisa do usuário
+def handle_search(query):
+    query = query.lower()
+    if "qualidade do ar" in query:
+        return "Você pode verificar a qualidade do ar clicando no botão 'Qualidade do Ar'."
+    elif "tempo" in query or "meteorologia" in query:
+        return "Confira a previsão do tempo clicando no botão 'Meteorologia'."
+    elif "eventos" in query:
+        return "Descubra os eventos mais recentes clicando no botão 'Eventos'."
+    else:
+        return "Desculpe, não entendi a pesquisa. Tente usar termos como 'qualidade do ar', 'tempo' ou 'eventos'."
+
 # Interface do Streamlit com Emojis ✨
 st.title("✨ Sugestões de Pesquisas ✨")
 
+# Barra de pesquisa
+st.write("Pesquise sobre qualidade do ar, eventos ou meteorologia:")
+search_query = st.text_input("Digite sua pesquisa aqui...")
+
+# Placeholder para a resposta da pesquisa
+if search_query:
+    search_response = handle_search(search_query)
+    st.write(search_response)
+
 st.write("Escolha uma opção para visualizar as informações:")
-col1, col2, col3 = st.columns(3)
+col1, col2, col3, col4 = st.columns(4)
 
 # Placeholder para exibir transições
 placeholder = st.empty()
@@ -170,4 +189,15 @@ with col3:
             else:
                 st.error("Erro ao obter os dados meteorológicos.")
 
+# Botão para Serviços Públicos
+with col4:
+    if st.button("Serviços Públicos"):
+        placeholder.empty()  # Limpar qualquer conteúdo anterior
+        with placeholder.container():
+            st.subheader("🏛️ Serviços Públicos")
+
+            # Botão Saúde
+            if st.button("Saúde"):
+                st.write("📞 Em caso de emergência, ligue para o número: **SNS 24 - 808 24 24 24**")
+                st.write("🏥 **Hospitais Públicos em Aveiro:**")
 
