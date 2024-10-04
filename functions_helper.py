@@ -211,6 +211,7 @@ def get_facebook_news():
     ultimate_str = ""
 
     # Print the titles of the posts
+
     for post in data:
         # print(post.get('postText', 'No title available'))
         #print("-------------------------------------------------------------------------------------------")
@@ -234,7 +235,7 @@ def get_facebook_news():
             continue
 
     
-        ultimate_str += "," + post_str
+        ultimate_str += post_str +  "\n"
     
     return ultimate_str
 
