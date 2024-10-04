@@ -1,5 +1,7 @@
 import mpu
 import heapq
+import matplotlib.pyplot as plt
+import networkx as nx
 
 class Node:
     def __init__(self,x,y):
@@ -24,6 +26,46 @@ class Graph:
 
     def add_edge(self,edge):
         self.edges.append(edge)
+    
+    def visualize(self, path=[]):
+        """
+        Visualize the graph and highlight the best path if provided.
+        """
+        G = nx.Graph()
+        pos = {}
+        
+        # Add nodes to the graph
+        for i, node in enumerate(self.nodes):
+            G.add_node(i)
+            pos[i] = (node.x, node.y)
+        
+        # Add edges to the graph
+        for edge in self.edges:
+            G.add_edge(edge.node1, edge.node2, weight=edge.distance)
+            if edge.bidirectional:
+                G.add_edge(edge.node2, edge.node1, weight=edge.distance)
+        
+        # Plot the graph
+        plt.figure(figsize=(8, 8))
+        
+        # Draw nodes
+        nx.draw_networkx_nodes(G, pos, node_size=700, node_color='lightblue')
+
+        # Draw edges
+        nx.draw_networkx_edges(G, pos, edgelist=G.edges(), edge_color='black')
+        
+        # Draw labels for nodes
+        nx.draw_networkx_labels(G, pos, font_size=12, font_color="black")
+
+        # Highlight the best path, if any
+        if path:
+            path_edges = [(path[i], path[i+1]) for i in range(len(path)-1)]
+            nx.draw_networkx_edges(G, pos, edgelist=path_edges, edge_color='r', width=3)  # Highlight the path in red
+
+        # Display the graph
+        plt.title("Graph Visualization with Best Path Highlighted (if any)")
+        plt.axis('off')
+        plt.show()
 
     def get_edge_id(self,node1,node2):
         i = 0
@@ -33,6 +75,9 @@ class Graph:
 
     def get_edge_lenght(self,node1,node2):
         return mpu.haversine_distance((self.nodes[node1].x,self.nodes[node1].y),(self.nodes[node2].x,self.nodes[node2].y))
+    
+    def manhatten_distance(self,node1,node2):
+        return (self.nodes[node2].x-self.nodes[node1].x)+(self.nodes[node2].y-self.nodes[node1].y)
     
     def get_neighbors(self, node):
         """
