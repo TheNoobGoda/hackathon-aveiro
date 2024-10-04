@@ -2,4 +2,5 @@
 
 Nota Importante: Para correr a aplicação é necessário o modelo LLM base da Meta. Recorremos à framework "llama-cpp-python" e o modelo é "T.E-8.1.i1-Q4_K_M.gguf", sendo que não se encontra neste repositório por ocupar ~ 5GB (encontra-se no hugging face).
 
+Nota: A aplicação pode ser inicializada com o ficheiro ultimate_streamlit.py utilizando o streamlit.
 
