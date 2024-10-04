@@ -107,6 +107,86 @@ def get_weather_data():
 
     except Exception as e:
         return None
+    
+#########################################################################################################
+
+# Função para fornecer dados turísticos predefinidos (roteiro)
+def get_tourism_data():
+    # List of main monuments
+    monuments = [
+        {
+            'name': 'Sé de Aveiro',
+            'description': 'A historical cathedral with impressive Baroque architecture.',
+            'address': 'R. Batalhão Caçadores 10, 3810-164 Aveiro'
+        },
+        {
+            'name': 'Fórum Aveiro',
+            'description': 'A popular shopping mall in the city center, known for its open-air spaces and modern design.',
+            'address': 'R. de Viseu 1, 3800-230 Aveiro'
+        },
+        {
+            'name': 'Museu de Aveiro',
+            'description': 'Museum housed in a former convent, featuring art and historical exhibits about Aveiro.',
+            'address': 'Av. Santa Joana Princesa, 3810-329 Aveiro'
+        }
+    ]
+
+    # List of museums
+    museums = [
+        {
+            'name': 'Museu Marítimo de Ílhavo',
+            'description': 'Dedicated to Aveiro’s maritime history and fishing traditions, with exhibitions on cod fishing.',
+            'address': 'Av. Dr. Rocha Madahil, 3830-193 Ílhavo'
+        },
+        {
+            'name': 'Museu Arte Nova',
+            'description': 'Art Nouveau museum located in a historical building, showcasing a variety of period artworks.',
+            'address': 'R. Dr. Barbosa de Magalhães 9-11, 3800-154 Aveiro'
+        }
+    ]
+
+    # List of popular restaurants
+    restaurants = [
+        {
+            'name': 'Salpoente',
+            'type': 'Gourmet Seafood',
+            'address': 'Cais de São Roque 83, 3800-256 Aveiro'
+        },
+        {
+            'name': 'O Bairro',
+            'type': 'Traditional Portuguese',
+            'address': 'R. António Cândido Pinto 7, 3800-139 Aveiro'
+        },
+        {
+            'name': 'Cais Madeirense',
+            'type': 'Madeiran Cuisine',
+            'address': 'Largo do Rossio 1, 3800-246 Aveiro'
+        }
+    ]
+
+    # List of things to do
+    activities = [
+        {
+            'name': 'Passeio de Moliceiro',
+            'description': 'Take a boat trip through the canals of Aveiro in a traditional Moliceiro, discovering the "Venice of Portugal".'
+        },
+        {
+            'name': 'Visitar a Praia da Barra',
+            'description': 'Relax at the Praia da Barra, known for its iconic lighthouse and beautiful long stretch of beach.'
+        },
+        {
+            'name': 'Explorar as Salinas de Aveiro',
+            'description': 'Visit the salt pans and learn about traditional salt extraction methods that date back centuries.'
+        }
+    ]
+
+    return {
+        'monuments': monuments,
+        'museums': museums,
+        'restaurants': restaurants,
+        'activities': activities
+    }
+
 
 # Função para interpretar a pesquisa do usuário
 def handle_search(query):
@@ -133,7 +213,7 @@ if search_query:
     st.write(search_response)
 
 st.write("Escolha uma opção para visualizar as informações:")
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3, col4, col5 = st.columns(5)
 
 # Placeholder para exibir transições
 placeholder = st.empty()
@@ -201,3 +281,33 @@ with col4:
                 st.write("📞 Em caso de emergência, ligue para o número: **SNS 24 - 808 24 24 24**")
                 st.write("🏥 **Hospitais Públicos em Aveiro:**")
 
+with col5:
+    if st.button("Roteiro Turístico"):
+        placeholder.empty()  # Limpar qualquer conteúdo anterior
+        with placeholder.container():
+            st.subheader("🗺️ Roteiro Turístico de Aveiro")
+            
+            tourism_data = get_tourism_data()
+            
+            st.write("### 🏛️ Principais Monumentos:")
+            for monument in tourism_data['monuments']:
+                st.write(f"**{monument['name']}**: {monument['description']}")
+                st.write(f"📍 Endereço: {monument['address']}")
+                st.write("---")
+            
+            st.write("### 🖼️ Museus:")
+            for museum in tourism_data['museums']:
+                st.write(f"**{museum['name']}**: {museum['description']}")
+                st.write(f"📍 Endereço: {museum['address']}")
+                st.write("---")
+
+            st.write("### 🍽️ Restaurantes Recomendados:")
+            for restaurant in tourism_data['restaurants']:
+                st.write(f"**{restaurant['name']}** ({restaurant['type']})")
+                st.write(f"📍 Endereço: {restaurant['address']}")
+                st.write("---")
+            
+            st.write("### 🎉 Atividades Imperdíveis:")
+            for activity in tourism_data['activities']:
+                st.write(f"**{activity['name']}**: {activity['description']}")
+                st.write("---")
