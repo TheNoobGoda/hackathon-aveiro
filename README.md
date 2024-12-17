@@ -4,3 +4,4 @@ Nota Importante: Para correr a aplicação é necessário o modelo LLM base da M
 
 Nota: A aplicação pode ser inicializada com o ficheiro ultimate_streamlit.py utilizando o streamlit.
 
+https://huggingface.co/mradermacher/T.E-8.1-i1-GGUF/tree/main
